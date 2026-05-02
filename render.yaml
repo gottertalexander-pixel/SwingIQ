@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: swingiq-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false          # set manually in Render dashboard
+      - key: JWT_SECRET
+        generateValue: true  # Render auto-generates a secure random value
+      - key: PORT
+        value: "8000"
+      - key: DATABASE_URL
+        value: "sqlite:///./swingiq.db"
+    disk:
+      name: swingiq-data
+      mountPath: /data
+      sizeGB: 1
+    healthCheckPath: /health
+    autoDeploy: true
